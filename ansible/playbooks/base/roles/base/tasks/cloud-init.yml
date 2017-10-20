@@ -1,0 +1,6 @@
+---
+- name: upload cloud-config files
+  copy: src=cloud.cfg.d/ dest=/etc/cloud/cloud.cfg.d/ owner=root group=root mode=0644
+
+- name: upload cloud-init template files
+  copy: src=templates/ dest=/etc/cloud/templates/ owner=root group=root mode=0644

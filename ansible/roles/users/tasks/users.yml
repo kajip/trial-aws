@@ -1,0 +1,12 @@
+---
+- name: create users
+  user: name={{item.name}} state=present password={{item.password}}
+  with_items: "{{users}}"
+
+- name: create ~/.ssh directory
+  file: path=/home/{{item.name}}/.ssh state=directory owner={{item.name}} group={{item.name}} mode=0700
+  with_items: "{{users}}"
+
+- name: authorized keys is deployed
+  copy: src=public_key/{{item.name}}.pub dest=/home/{{item.name}}/.ssh/authorized_keys owner={{item.name}} group={{item.name}} mode=0600
+  with_items: "{{users}}"

@@ -1,0 +1,15 @@
+---
+- name: install latest version ruby packages
+  yum: name=ruby state=latest
+
+- name: install latest version ruby-devel packages
+  yum: name=ruby-devel state=latest
+
+- name: install latest version gcc-c++ packages
+  yum: name=gcc-c++ state=latest
+
+- name: install latest version gem packages
+  gem: name={{ item }} user_install=no state=latest
+  with_items:
+    - bundler
+    - io-console

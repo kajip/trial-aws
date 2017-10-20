@@ -1,0 +1,25 @@
+{
+  "variables": {
+    "ami_name": "base-test-{{isotime \"20060102-030405\"}}",
+    "base_ami" : "",
+    "ssh_username" : "ec2-user",
+    "sftp_command": "/usr/libexec/openssh/sftp-server"
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "region": "ap-northeast-1",
+    "source_ami": "{{user `base_ami`}}",
+    "instance_type": "t2.micro",
+    "ssh_username": "{{user `ssh_username`}}",
+    "ami_name": "{{user `ami_name`}}",
+    "tags": {
+      "Name": "{{user `ami_name`}}"
+    }
+  }],
+  "provisioners": [{
+    "type": "ansible",
+    "user": "{{user `ssh_username`}}",
+    "sftp_command": "{{user `sftp_command`}}",
+    "playbook_file": "../../ansible/playbooks/base/playbook.yml"
+  }]
+}

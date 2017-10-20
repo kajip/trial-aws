@@ -1,0 +1,4 @@
+---
+- include: cloud-init.yml
+- include: ruby.yml
+- include: sshd.yml
