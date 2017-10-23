@@ -38,6 +38,15 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "*"
     ]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "codedeploy:*"
+    ]
+    resources = [
+      "*"
+    ]
+  }
 }
 
 
@@ -89,6 +98,26 @@ resource "aws_codepipeline" "testing" {
 
       configuration {
         ProjectName = "${aws_codebuild_project.trial.name}"
+      }
+    }
+  }
+
+  stage {
+    name = "Deploy"
+
+    action {
+      name            = "Release@Trial"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CodeDeploy"
+      input_artifacts = [
+        "${var.distribution_artifacts}"
+      ]
+      version         = "1"
+
+      configuration {
+        ApplicationName = "${aws_codedeploy_app.trial.name}"
+        DeploymentGroupName = "${aws_codedeploy_deployment_group.trial.deployment_group_name}"
       }
     }
   }
