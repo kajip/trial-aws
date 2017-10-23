@@ -1,55 +1,5 @@
 /** CodePipeline定義 */
 
-module "codepipeline_role" {
-  source = "./../../modules/role"
-
-  name = "codepipeline"
-  identifies = [
-    "codepipeline.amazonaws.com"
-  ]
-}
-
-resource "aws_iam_role_policy" "codepipeline_role_policy" {
-  role = "${module.codepipeline_role.name}"
-  policy = "${data.aws_iam_policy_document.codepipeline_policy.json}"
-}
-
-data "aws_iam_policy_document" "codepipeline_policy" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:GetBucketVersioning",
-      "s3:PutObject"
-    ]
-    resources = [
-      "${aws_s3_bucket.build.arn}",
-      "${aws_s3_bucket.build.arn}/*"
-    ]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codebuild:BatchGetBuilds",
-      "codebuild:StartBuild"
-    ]
-    resources = [
-      "*"
-    ]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "codedeploy:*"
-    ]
-    resources = [
-      "*"
-    ]
-  }
-}
-
-
 resource "aws_codepipeline" "testing" {
   name     = "${var.pipeline_name}"
   role_arn = "${module.codepipeline_role.arn}"
@@ -63,7 +13,7 @@ resource "aws_codepipeline" "testing" {
     name = "Source"
 
     action {
-      name             = "Source"
+      name             = "Source@GitHub"
       category         = "Source"
       owner            = "ThirdParty"
       provider         = "GitHub"
@@ -106,7 +56,7 @@ resource "aws_codepipeline" "testing" {
     name = "Deploy"
 
     action {
-      name            = "Release@Trial"
+      name            = "Deploy@Trial"
       category        = "Deploy"
       owner           = "AWS"
       provider        = "CodeDeploy"

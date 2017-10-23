@@ -1,19 +1,5 @@
 /** CodeDeploy定義 */
 
-module "codedeploy_role" {
-  source = "./../../modules/role"
-
-  name = "codedeploy"
-  identifies = [
-    "codedeploy.amazonaws.com"
-  ]
-}
-
-resource "aws_iam_role_policy_attachment" "codedeploy_role_policy" {
-  role = "${module.codedeploy_role.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
-}
-
 resource "aws_codedeploy_app" "trial" {
   name = "trial"
 }

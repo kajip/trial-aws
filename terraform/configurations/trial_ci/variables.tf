@@ -22,5 +22,5 @@ variable "source_artifacts" {
 
 variable "distribution_artifacts" {
   description = "生成物の格納場所"
-  default = "distribution"
+  default = "dist"
 }
