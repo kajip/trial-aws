@@ -41,9 +41,9 @@ data "aws_iam_policy_document" "codebuild_policy" {
 }
 
 resource "aws_codebuild_project" "trial" {
-  name          = "trial"
-  description   = "test_codebuild_project"
-  build_timeout = "5"
+  name          = "${var.build_project_name}"
+  description   = "Trial Build Project"
+  build_timeout = "${var.build_timeout}"
   service_role = "${module.codebuild_role.arn}"
 
   environment {

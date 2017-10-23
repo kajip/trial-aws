@@ -7,6 +7,7 @@ resource "aws_instance" "trial" {
   iam_instance_profile = "${aws_iam_instance_profile.common.name}"
   key_name = "${var.key_name}"
   vpc_security_group_ids = [
+    "${aws_default_security_group.default.id}",
     "${aws_security_group.allow_ssh.id}",
     "${aws_security_group.allow_http.id}"
   ]
@@ -19,7 +20,15 @@ repo_upgrade: none
 EOF
   tags {
     Name = "trial"
+    Environment = "Trial"
   }
+}
+
+resource "aws_default_vpc" "default" {
+}
+
+resource "aws_default_security_group" "default" {
+  vpc_id = "${aws_default_vpc.default.id}"
 }
 
 resource "aws_security_group" "allow_ssh" {

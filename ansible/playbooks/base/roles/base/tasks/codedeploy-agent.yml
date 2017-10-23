@@ -1,0 +1,13 @@
+---
+- name: base | codedeploy-agent | download CodeDeploy agent installer
+  get_url:
+    url: "https://{{ bucket_name }}.s3.amazonaws.com/latest/install"
+    dest: /home/ec2-user/install
+    owner: ec2-user
+    group: ec2-user
+    mode: 0755
+
+- name: base | codedeploy-agent | install CodeDeploy agent
+  command: /home/ec2-user/install auto
+  args:
+    creates: /etc/init.d/codedeploy-agent

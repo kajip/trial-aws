@@ -1,10 +1,5 @@
 /** CodePipeline定義 */
 
-resource "aws_s3_bucket" "build" {
-  bucket = "biglobe-isp-build"
-  acl    = "private"
-}
-
 module "codepipeline_role" {
   source = "./../../modules/role"
 
@@ -47,7 +42,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
 
 
 resource "aws_codepipeline" "testing" {
-  name     = "trial-testing-pipeline"
+  name     = "${var.pipeline_name}"
   role_arn = "${module.codepipeline_role.arn}"
 
   artifact_store {
@@ -65,7 +60,7 @@ resource "aws_codepipeline" "testing" {
       provider         = "GitHub"
       version          = "1"
       output_artifacts = [
-        "test"
+        "${var.source_artifacts}"
       ]
 
       configuration {
@@ -85,11 +80,11 @@ resource "aws_codepipeline" "testing" {
       owner           = "AWS"
       provider        = "CodeBuild"
       input_artifacts = [
-        "test"
+        "${var.source_artifacts}"
       ]
-//      output_artifacts = [
-//        "de"
-//      ]
+      output_artifacts = [
+        "${var.distribution_artifacts}"
+      ]
       version         = "1"
 
       configuration {
