@@ -1,7 +1,6 @@
-#ami_id = "ami-1f08d17e"
-ami_id = "ami-2a69be4c"
+ami_id = "ami-c58621a3"
 
-key_name = "kajita"
+key_name = "t-kajita"
 
 //allow_cidr_addrs = [
 //  "133.205.242.64/27",

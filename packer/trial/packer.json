@@ -1,6 +1,6 @@
 {
   "variables": {
-    "ami_name": "base-test-{{isotime \"20060102-030405\"}}",
+    "ami_name": "trial-{{isotime \"20060102-030405\"}}",
     "base_ami" : "",
     "ssh_username" : "ec2-user",
     "sftp_command": "/usr/libexec/openssh/sftp-server"

@@ -1,0 +1,16 @@
+---
+- name: java | java | download Oracle JDK
+  get_url:
+    url: "{{jdk_download_url}}"
+    dest: "/tmp/{{ jdk_filename }}"
+    headers: "Cookie:' gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie'"
+    validate_certs: no
+    mode: 644
+
+- name: java | java | install Oracle JDK
+  yum:
+    name: "/tmp/{{ jdk_filename }}"
+    state: present
+
+- name: java | java | enabled Oracle JDK
+  command: /usr/sbin/alternatives --install /usr/bin/java java /usr/java/default/bin/java 18000
